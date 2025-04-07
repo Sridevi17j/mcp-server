@@ -1,12 +1,12 @@
 from mcp.server.sse import SseServerTransport
-from mcp.server import Server
+from mcp.server.fastmcp import FastMCP
 from starlette.applications import Starlette
 from starlette.routing import Route
 import requests
 from bs4 import BeautifulSoup
 
 # Create MCP server instance
-app = Server("web-content-extractor")
+app = FastMCP("web-content-extractor")
 
 @app.tool()
 def extract_web_content(url: str) -> str:
