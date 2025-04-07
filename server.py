@@ -1,5 +1,5 @@
 from mcp.server.sse import SseServerTransport
-from mcp.server.core import Server
+from mcp.server import Server
 from starlette.applications import Starlette
 from starlette.routing import Route
 import requests
