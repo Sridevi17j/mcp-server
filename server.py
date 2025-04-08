@@ -4,6 +4,8 @@ from starlette.applications import Starlette
 from starlette.routing import Route
 import requests
 from bs4 import BeautifulSoup
+import uvicorn
+import os
 
 # Create MCP server instance
 app = FastMCP("web-content-extractor")
@@ -14,20 +16,16 @@ def extract_web_content(url: str) -> str:
     try:
         if not url.startswith("http://") and not url.startswith("https://"):
             return "Invalid URL. It must start with http:// or https://"
-
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
-
         # Remove scripts and styles
         for tag in soup(['script', 'style']):
             tag.decompose()
-
         # Extract visible text
         raw_text = soup.get_text()
         cleaned = "\n".join(
             line.strip() for line in raw_text.splitlines() if line.strip()
         )
-
         return cleaned
     except Exception as e:
         return f"Error: {str(e)}"
@@ -47,3 +45,10 @@ starlette_app = Starlette(routes=[
     Route("/sse", endpoint=handle_sse),
     Route("/messages", endpoint=handle_messages, methods=["POST"]),
 ])
+
+if __name__ == "__main__":
+    # Get port from environment variable or default to 8000
+    port = int(os.environ.get("PORT", 8000))
+    
+    # Run the application with uvicorn
+    uvicorn.run(starlette_app, host="0.0.0.0", port=port)
