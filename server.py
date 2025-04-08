@@ -102,7 +102,7 @@ async def handle_messages(scope, receive, send):
         })
         await send({
             'type': 'http.response.body',
-            'body': f'{{"error": "{str(e)}"}'.encode('utf-8'),
+'body': f'{{"error": "{str(e)}"}}'.encode('utf-8'),
         })
 
 async def homepage(request):
