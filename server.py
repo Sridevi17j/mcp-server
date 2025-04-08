@@ -47,8 +47,15 @@ starlette_app = Starlette(routes=[
 ])
 
 if __name__ == "__main__":
-    # Get port from environment variable or default to 8000
-    port = int(os.environ.get("PORT", 8000))
+    # Get port from environment variable or default to 10000
+    port = int(os.environ.get("PORT", 10000))
+    
+    print(f"Starting server on port {port}")
     
     # Run the application with uvicorn
-    uvicorn.run(starlette_app, host="0.0.0.0", port=port)
+    uvicorn.run(
+        "server:starlette_app",  # Use string reference instead of direct object
+        host="0.0.0.0",  # Important: bind to all interfaces
+        port=port,
+        log_level="info"
+    )
