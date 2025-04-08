@@ -80,7 +80,7 @@ async def handle_sse(scope, receive, send):
         [b'content-type', b'application/json'],
     ]
 })
-await send({
+send({
     'type': 'http.response.body',
     'body': f'{{"error": "{str(e)}"}}'.encode('utf-8'),
 })
