@@ -74,16 +74,17 @@ async def handle_sse(scope, receive, send):
         logger.error(traceback.format_exc())
         # Send error response
         await send({
-            'type': 'http.response.start',
-            'status': 500,
-            'headers': [
-                [b'content-type', b'text/plain'],
-            ]
-        })
-        await send({
-            'type': 'http.response.body',
-            'body': f"Error: {str(e)}".encode('utf-8'),
-        })
+    'type': 'http.response.start',
+    'status': 500,
+    'headers': [
+        [b'content-type', b'application/json'],
+    ]
+})
+await send({
+    'type': 'http.response.body',
+    'body': f'{{"error": "{str(e)}"}}'.encode('utf-8'),
+})
+
 
 async def handle_messages(scope, receive, send):
     try:
